@@ -1,0 +1,69 @@
+# Environnements virtuels
+venv/
+env/
+.venv/
+
+# Fichiers de dépendances
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+
+# Configurations spécifiques de l'IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Configuration spécifique à PyCharm
+/.idea/
+*.iml
+
+# Fichiers de log et de debugging
+*.log
+
+# Fichiers de tests
+.pytest_cache/
+.tox/
+coverage/
+htmlcov/
+.cache/
+*.cover
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Sortie de coverage
+.coverage
+.coverage.*
+
+# Sortie de mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Sortie de Jupyter Notebook
+.ipynb_checkpoints
+
+# Systèmes de déploiement
+.pytest_cache/
+.tox/
+
+# Environnements spécifiques à macOS
+.DS_Store
+
+# Fichiers générés par le build
+dist/
+build/
+*.egg-info/
+
+# Autres fichiers générés automatiquement
+*.swp
+*.swo
+
+# Secrets et fichiers de configuration locaux
+.env
+.env.local
+.env.*.local
