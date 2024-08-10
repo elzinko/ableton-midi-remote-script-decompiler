@@ -1,3 +1,7 @@
+"""
+This module provides a function to decompile all .pyc or .pyo files in a directory
+"""
+
 import os
 import uncompyle6
 from pathlib import Path
@@ -10,21 +14,21 @@ def decompile_ableton_scripts(source_dir, output_dir):
     """
     if not os.path.exists(source_dir):
         raise FileNotFoundError(f"The source directory {source_dir} does not exist.")
-    
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    
+
     for root, dirs, files in os.walk(source_dir):
         for file in files:
             if file.endswith(('.pyc', '.pyo')):
                 source_file_path = os.path.join(root, file)
                 relative_path = os.path.relpath(root, source_dir)
                 output_file_dir = os.path.join(output_dir, relative_path)
-                
+
                 Path(output_file_dir).mkdir(parents=True, exist_ok=True)
-                
+
                 output_file_path = os.path.join(output_file_dir, file[:-1] + "py")
-                
+
                 try:
                     with open(output_file_path, 'w') as output_file:
                         uncompyle6.decompile_file(source_file_path, outstream=output_file)
@@ -39,5 +43,5 @@ if __name__ == "__main__":
 
     source_directory = sys.argv[1]
     output_directory = sys.argv[2]
-    
+
     decompile_ableton_scripts(source_directory, output_directory)

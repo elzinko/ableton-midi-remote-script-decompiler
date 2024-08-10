@@ -1,3 +1,7 @@
+"""
+This module lists the directories where MIDI Remote Scripts are deployed.
+"""
+
 import glob
 import platform
 from pathlib import Path

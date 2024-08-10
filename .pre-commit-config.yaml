@@ -1,0 +1,17 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+
+  - repo: local
+    hooks:
+      - id: unittest
+        name: Run unittest
+        entry: ./venv/bin/python  # Path to the Python interpreter in your virtual environment
+        args: ['-m', 'unittest', 'discover', '-v']
+        language: system
+        pass_filenames: false
+        always_run: true

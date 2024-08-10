@@ -1,3 +1,7 @@
+"""
+This module lists the installed versions of Ableton Live on the system and their installation paths.
+"""
+
 import os
 import glob
 import platform
