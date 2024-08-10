@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='ableton-script-decompiler',
+    name='abletoolkit',
     version='0.1.0',
-    description='Ableton live user toolkit.',
+    description='Ableton Live user toolkit.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     author='Thomas Couderc',
@@ -13,7 +13,7 @@ setup(
     package_dir={'': 'src'},
     entry_points={
         'console_scripts': [
-            'ableton-decompiler=abletoolkit.cli:main',
+            'abletoolkit=abletoolkit.cli:main',
         ],
     },
     install_requires=[
