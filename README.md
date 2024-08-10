@@ -68,3 +68,22 @@ Remplacez `/chemin/vers/le/dossier/source` et `/chemin/vers/le/dossier/output` p
 - `README.md` : Ce fichier d'instructions.
 - `requirements.txt` : Les dépendances Python nécessaires.
 - `src/ableton_script_decompiler/decompile.py` : Le script Python principal pour la décompilation.
+
+
+## Scripts supplémentaires
+
+### Lister les versions d'Ableton installées
+
+Vous pouvez utiliser le script `list_ableton_versions.py` pour lister les versions d'Ableton Live installées sur votre système ainsi que leurs emplacements. Ce script est conçu pour fonctionner sur macOS.
+
+```bash
+python src/ableton_script_decompiler/list_ableton_versions.py
+```
+
+### Lister les répertoires des MIDI Remote Scripts
+
+Utilisez le script `list_remote_script_directories.py` pour lister les répertoires où sont déployés les MIDI Remote Scripts, y compris le chemin `/Users/${user}/Music/Ableton/User Library/Remote Scripts` pour macOS.
+
+```bash
+python src/ableton_script_decompiler/list_remote_script_directories.py
+```
