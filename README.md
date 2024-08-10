@@ -1,23 +1,28 @@
-# Ableton Script Decompiler
+# AbleToolKit
 
 ## Description
-Ce projet est un petit utilitaire pour décompiler les fichiers compilés des scripts distants d'Ableton Live dans un autre répertoire en utilisant `uncompyle6`.
+This project is a small utility for Ableton midi remote scripts developers.
+Here are examples of functionnalities it provides : 
+- decompile the compiled files of Ableton Live's remote scripts into another directory.
+- list all Ableton Live installed versions
+- list all Ableton midi remote scripts locations
 
-## Prérequis
-- **Python 3.x** doit être installé sur votre machine.
-- **pyenv** pour gérer les versions Python (optionnel mais recommandé).
-- **uncompyle6** pour la décompilation des fichiers.
+## Prerequisites
+- **Python 3.x** must be installed on your machine.
+- **pyenv** for managing Python versions (optional but recommended).
+- **pip** for installing Python packages.
+- **uncompyle6** for decompiling files.
 
 ## Installation
 
-### Étape 1 : Installer pyenv (optionnel)
-Si vous ne l'avez pas encore installé, voici comment le faire :
+### Step 1: Install pyenv (optional)
+If you haven't installed it yet, here's how to do it:
 
 ```bash
 curl https://pyenv.run | bash
 ```
 
-Ensuite, ajoutez les lignes suivantes à votre fichier `~/.bashrc` ou `~/.zshrc` :
+Then, add the following lines to your `/.bashrc` or `/.zshrc` file:
 
 ```bash
 export PATH="$HOME/.pyenv/bin:$PATH"
@@ -26,64 +31,104 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 ```
 
-Rechargez votre shell :
+Reload your shell:
 
 ```bash
-source ~/.bashrc  # ou source ~/.zshrc
+source ~/.bashrc # or source ~/.zshrc
 ```
 
-### Étape 2 : Installer la bonne version de Python
-Utilisez `pyenv` pour installer et utiliser une version spécifique de Python :
+### Step 2: Install the correct version of Python
+Use `pyenv` to install and use a specific version of Python:
 
 ```bash
 pyenv install 3.x.x
 pyenv global 3.x.x
 ```
 
-### Étape 3 : Créer un environnement virtuel
-Créez et activez un environnement virtuel pour le projet :
+### Step 3: Install pip
+If pip is not already installed, you can install it by downloading get-pip.py and running it:
+```bash
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+```
+
+### Step 4: Create a virtual environment
+Create and activate a virtual environment for the project:
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # Sur Windows: venv\Scripts\activate
+source venv/bin/activate # On Windows: venv\Scripts\activate
 ```
 
-### Étape 4 : Installer les dépendances
-Installez les dépendances requises avec `pip` :
+### Step 5: Install dependencies
+Install the required dependencies with `pip`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Utilisation
-Pour décompiler les scripts d'Ableton Live :
+## Usage
+AbleToolKit provides a command-line interface (CLI) client that allows you to access all of its functionalities easily.
+
+To use the CLI client, simply run the following command:
 
 ```bash
-python src/ableton_script_decompiler/decompile.py /chemin/vers/le/dossier/source /chemin/vers/le/dossier/output
+abletoolkit -h
 ```
 
-Remplacez `/chemin/vers/le/dossier/source` et `/chemin/vers/le/dossier/output` par les chemins appropriés.
+This will display a help message showing all available commands and options.
 
-## Fichiers du projet
-- `README.md` : Ce fichier d'instructions.
-- `requirements.txt` : Les dépendances Python nécessaires.
-- `src/ableton_script_decompiler/decompile.py` : Le script Python principal pour la décompilation.
-
-
-## Scripts supplémentaires
-
-### Lister les versions d'Ableton installées
-
-Vous pouvez utiliser le script `list_ableton_versions.py` pour lister les versions d'Ableton Live installées sur votre système ainsi que leurs emplacements. Ce script est conçu pour fonctionner sur macOS.
+Example output:
 
 ```bash
-python src/ableton_script_decompiler/list_ableton_versions.py
+usage: abletoolkit [-h] {decompile,list_versions,list_remote_scripts} ...
+
+Decompilation and management tools for Ableton Live.
+
+positional arguments:
+  {decompile,list_versions,list_remote_scripts}
+                        Command to execute
+    decompile           Decompile Ableton's compiled files
+    list_versions       List the installed versions of Ableton
+    list_remote_scripts List MIDI Remote Scripts directories
+
+optional arguments:
+  -h, --help            show this help message and exit
 ```
 
-### Lister les répertoires des MIDI Remote Scripts
+## Available Commands
 
-Utilisez le script `list_remote_script_directories.py` pour lister les répertoires où sont déployés les MIDI Remote Scripts, y compris le chemin `/Users/${user}/Music/Ableton/User Library/Remote Scripts` pour macOS.
+1 - Decompile Ableton Live Scripts:
+
+To decompile Ableton Live's scripts:
 
 ```bash
-python src/ableton_script_decompiler/list_remote_script_directories.py
+abletoolkit decompile /path/to/source/directory /path/to/output/directory
 ```
+Replace /path/to/source/directory and /path/to/output/directory with the appropriate paths.
+
+2 - List Installed Ableton Versions:
+
+You can use the following command to list the Ableton Live versions installed on your system along with their locations:
+
+```bash
+abletoolkit list_versions
+```
+
+3 - List MIDI Remote Scripts Directories:
+
+Use this command to list the directories where MIDI Remote Scripts are deployed, including the path /Users/${user}/Music/Ableton/User Library/Remote Scripts for macOS:
+
+```bash
+abletoolkit list_remote_scripts
+```
+
+## Project Files
+- README.md: This instruction file.
+- requirements.txt: The necessary Python dependencies.
+- src/abletoolkit/decompile.py: The main Python script for decompiling.
+- src/abletoolkit/cli.py: The CLI client script that aggregates all functionalities.
+
+
+## Next features
+- [ ] live reload of Ableton when midi scripts are updated in specific location

@@ -5,11 +5,11 @@ import sys
 
 def decompile_ableton_scripts(source_dir, output_dir):
     """
-    Décompile tous les fichiers .pyc ou .pyo dans le répertoire source
-    et les place dans le répertoire de sortie.
+    Decompiles all .pyc or .pyo files in the source directory
+    and places them in the output directory.
     """
     if not os.path.exists(source_dir):
-        raise FileNotFoundError(f"Le répertoire source {source_dir} n'existe pas.")
+        raise FileNotFoundError(f"The source directory {source_dir} does not exist.")
     
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -28,9 +28,9 @@ def decompile_ableton_scripts(source_dir, output_dir):
                 try:
                     with open(output_file_path, 'w') as output_file:
                         uncompyle6.decompile_file(source_file_path, outstream=output_file)
-                    print(f"Décompilé : {source_file_path} -> {output_file_path}")
+                    print(f"Decompiled: {source_file_path} -> {output_file_path}")
                 except Exception as e:
-                    print(f"Erreur lors de la décompilation de {source_file_path}: {e}")
+                    print(f"Error during decompilation of {source_file_path}: {e}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
