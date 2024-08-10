@@ -67,6 +67,12 @@ Install the required dependencies with `pip`:
 pip install -r requirements.txt
 ```
 
+### Step 6: Install client
+Install the AbleToolKit client using : 
+```bash
+pip install .
+```
+
 ## Usage
 AbleToolKit provides a command-line interface (CLI) client that allows you to access all of its functionalities easily.
 
