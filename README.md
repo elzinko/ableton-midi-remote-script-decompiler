@@ -2,7 +2,7 @@
 
 ## Description
 This project is a small utility for Ableton midi remote scripts developers.
-Here are examples of functionnalities it provides : 
+Here are examples of functionnalities it provides :
 - decompile the compiled files of Ableton Live's remote scripts into another directory.
 - list all Ableton Live installed versions
 - list all Ableton midi remote scripts locations
@@ -68,7 +68,7 @@ pip install -r requirements.txt
 ```
 
 ### Step 6: Install client
-Install the AbleToolKit client using : 
+Install the AbleToolKit client using :
 ```bash
 pip install .
 ```

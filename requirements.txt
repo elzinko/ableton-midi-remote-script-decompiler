@@ -1,3 +1,5 @@
+pylint
 setuptools
 uncompyle6
 pre-commit
+autopep8

@@ -1,3 +1,12 @@
+"""
+This file is used to package the project.
+It is used by the `pip` command to install the project.
+To install the project, run the following command:
+```
+pip install .
+```
+"""
+
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as f:

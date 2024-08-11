@@ -6,6 +6,7 @@ import glob
 import platform
 from pathlib import Path
 
+
 def list_remote_script_directories():
     """
     Lists the directories where MIDI Remote Scripts are deployed.
@@ -15,7 +16,7 @@ def list_remote_script_directories():
         user_dir = Path.home()
         remote_scripts_dirs = [
             "/Applications/Ableton Live*/Contents/App-Resources/MIDI Remote Scripts",
-            f"{user_dir}/Music/Ableton/User Library/Remote Scripts"
+            f"{user_dir}/Music/Ableton/User Library/Remote Scripts",
         ]
     else:
         print("This script currently only works on macOS.")
@@ -30,8 +31,9 @@ def list_remote_script_directories():
         print("No MIDI Remote Scripts directories found.")
     else:
         print("Found MIDI Remote Scripts directories:")
-        for dir in found_dirs:
-            print(f"- {dir}")
+        for found_dir in found_dirs:
+            print(f"- {found_dir}")
+
 
 if __name__ == "__main__":
     list_remote_script_directories()

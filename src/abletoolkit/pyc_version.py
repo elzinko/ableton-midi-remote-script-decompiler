@@ -1,3 +1,13 @@
+"""
+Description:
+    Determines the Python version used to compile a .pyc file using xdis.
+Args:
+    pyc_file_path (str): The path to the .pyc file.
+Returns:
+    str: The Python version as a string (e.g., '3.7', '3.8').
+    None: If the version cannot be determined.
+"""
+
 import sys
 from xdis import load_module
 
