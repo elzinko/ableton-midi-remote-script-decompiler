@@ -10,6 +10,16 @@ PYTHON := $(PYENV_ROOT)/versions/$(PYTHON_VERSION)/bin/python
 # Default target
 .DEFAULT_GOAL := install
 
+# Clean everything, including venv and build artifacts
+clean:
+	rm -rf $(VENV_DIR)
+	rm -rf build dist *.egg-info
+	find . -type d -name '__pycache__' -exec rm -r {} +
+	find . -type f -name '*.pyc' -delete
+	find . -type f -name '*.pyo' -delete
+	@echo "Cleaned up all generated files, including the venv and build artifacts."
+
+
 # Check if pyenv is installed
 $(PYENV_ROOT):
 	@echo "Checking if pyenv is installed..."
@@ -43,7 +53,7 @@ $(VENV_DIR)/bin/activate: setup_pyenv
 	$(PYTHON) -m venv $(VENV_DIR)
 	@echo "Virtual environment created in $(VENV_DIR)"
 
-# Install
+# Install dependencies and abletoolkit
 install: $(VENV_DIR)/bin/activate
 	$(VENV_DIR)/bin/pip install --upgrade pip
 	$(VENV_DIR)/bin/pip install -r requirements.txt
@@ -61,16 +71,28 @@ lint: $(VENV_DIR)/bin/activate
 	$(VENV_DIR)/bin/pylint $(shell find abletoolkit -name "*.py") $(shell find tests -name "*.py")
 	@echo "Linting completed"
 
-# Clean everything, including venv and build artifacts
-clean:
-	rm -rf $(VENV_DIR)
-	rm -rf build dist *.egg-info
-	find . -type d -name '__pycache__' -exec rm -r {} +
-	find . -type f -name '*.pyc' -delete
-	find . -type f -name '*.pyo' -delete
-	@echo "Cleaned up all generated files, including the venv and build artifacts."
+# Commitizen commit
+commit:
+    @git-cz
 
+# Show the current version of abletoolkit
 version:
 	@echo src/abletoolkit/version.py | xargs grep __version__ | cut -d '"' -f 2
 
-.PHONY: install test lint clean setup_pyenv
+# Create a new release of abletoolkit
+release:
+    @standard-version
+    @./devel/release.sh
+
+# Show help
+help:
+	@echo "Usage: make [target]"
+	@echo "Targets:"
+	@echo "  install: Install dependencies and abletoolkit"
+	@echo "  test: Run tests"
+	@echo "  lint: Lint the code"
+	@echo "  clean: Clean everything, including venv and build artifacts"
+	@echo "  version: Show the current version of abletoolkit"
+	@echo "  release version=1.0.0: Create a new release of abletoolkit"
+
+.PHONY: install test lint clean setup_pyenv version release help
