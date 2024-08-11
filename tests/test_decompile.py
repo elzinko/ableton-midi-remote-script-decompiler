@@ -14,7 +14,7 @@ import os
 import unittest
 import shutil
 from pathlib import Path
-from abletoolkit.decompile import decompile_ableton_scripts
+from src.abletoolkit.decompile import decompile_ableton_scripts
 
 
 class TestDecompile(unittest.TestCase):
