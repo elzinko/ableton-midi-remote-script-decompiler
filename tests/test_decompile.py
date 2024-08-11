@@ -26,10 +26,11 @@ class TestDecompile(unittest.TestCase):
     """
 
     def setUp(self):
-        self.ableton_path = Path(__file__).parent / "decompile" / "ableton"
-        self.decompiled_path = (
-            Path(__file__).parent / "decompile" / "decompiled" / "ableton"
+        self.build_path = Path(__file__).parent.parent / "build"
+        self.ableton_path = (
+            Path(__file__).parent / "resources" / "decompile" / "ableton"
         )
+        self.decompiled_path = self.build_path / "decompile" / "ableton"
         self.ableton_version_folders = [
             folder
             for folder in os.listdir(self.ableton_path)
@@ -37,11 +38,9 @@ class TestDecompile(unittest.TestCase):
         ]
         print(f"Found Ableton versions: {self.ableton_version_folders}")
 
-    def tearDown(self):
-        for version in self.ableton_version_folders:
-            output_dir = self.decompiled_path / version / "midi_remote_scripts"
-            print(f"Removing {output_dir}")
-            shutil.rmtree(output_dir)
+    def tearDown(self) -> None:
+        # remove the decompiled files
+        shutil.rmtree(self.decompiled_path.parent)
 
     def test_decompile_ableton_scripts(self):
         """

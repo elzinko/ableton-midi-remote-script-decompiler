@@ -34,7 +34,6 @@ nosetests.xml
 coverage.xml
 *.cover
 *.py,cover
-/tests/decompile/decompiled/
 
 # Sortie de coverage
 .coverage
@@ -68,5 +67,3 @@ build/
 .env
 .env.local
 .env.*.local
-
-# code

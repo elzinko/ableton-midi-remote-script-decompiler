@@ -16,11 +16,12 @@ class TestPycVersion(unittest.TestCase):
     """
 
     def setUp(self):
-        # Adjust these paths based on where your .pyc files are located
-        # get files in tests/decompile/ableton/11/midi_remote_scripts/Push/push.pyc and
-        # tests/decompile/ableton/12/midi_remote_scripts/Push/push.pyc
+        """
+        Set up the test environment.
+        """
         self.pyc_file_ableton_11 = (
             Path(__file__).parent
+            / "resources"
             / "decompile"
             / "ableton"
             / "11"
@@ -30,6 +31,7 @@ class TestPycVersion(unittest.TestCase):
         )
         self.pyc_file_ableton_12 = (
             Path(__file__).parent
+            / "resources"
             / "decompile"
             / "ableton"
             / "12"
@@ -47,7 +49,7 @@ class TestPycVersion(unittest.TestCase):
 
     def test_python_version_38(self):
         """
-        Test if the .pyc file compiled with Python 3.8 is correctly identified.
+        Test if the .pyc file compiled with Python 3.7 is correctly identified.
         """
         version = get_python_version_from_pyc(self.pyc_file_ableton_12)
         self.assertEqual(version, "3.7", f"Expected '3.7', but got '{version}'")
