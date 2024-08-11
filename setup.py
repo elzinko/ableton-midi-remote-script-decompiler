@@ -8,13 +8,14 @@ pip install .
 """
 
 from setuptools import setup, find_packages
+from src.abletoolkit import version as version_module
 
 with open("README.md", "r", encoding="utf-8") as f:
     readme = f.read()
 
 setup(
     name="abletoolkit",
-    version="0.1.0",
+    version=version_module.__version__,
     description="Ableton Live user toolkit.",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -26,11 +27,12 @@ setup(
     entry_points={
         "console_scripts": [
             "abletoolkit=abletoolkit.cli:main",
+            "atk=abletoolkit.cli:main",
         ],
     },
     install_requires=[
         "uncompyle6",
-        # Ajouter d'autres dépendances si nécessaire
+
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

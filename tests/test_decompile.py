@@ -14,7 +14,7 @@ import os
 import unittest
 import shutil
 from pathlib import Path
-from src.abletoolkit.decompile import decompile_ableton_scripts
+from src.abletoolkit.decompile import decompile
 
 
 class TestDecompile(unittest.TestCase):
@@ -50,7 +50,7 @@ class TestDecompile(unittest.TestCase):
             source_dir = self.ableton_path / version / "midi_remote_scripts"
             output_dir = self.decompiled_path / version / "midi_remote_scripts"
             print(f"Decompiling {source_dir} to {output_dir}")
-            decompile_ableton_scripts(source_dir, output_dir)
+            decompile(source_dir, output_dir)
             for root, _, files in os.walk(output_dir):
                 for file in files:
                     self.assertTrue(os.path.exists(os.path.join(root, file)))

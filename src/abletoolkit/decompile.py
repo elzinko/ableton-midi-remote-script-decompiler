@@ -8,9 +8,9 @@ from pathlib import Path
 import uncompyle6
 
 
-def decompile_ableton_scripts(source_dir, output_dir):
+def decompile(source_dir, output_dir):
     """
-    Decompiles all .pyc or .pyo files in the source directory
+    Decompiles all .pyc files in the source directory
     and places them in the output directory.
     """
     if not os.path.exists(source_dir):
@@ -22,7 +22,7 @@ def decompile_ableton_scripts(source_dir, output_dir):
 
     for root, _, files in os.walk(source_dir):
         for file in files:
-            if file.endswith((".pyc", ".pyo")):
+            if file.endswith((".pyc")):
                 source_file_path = os.path.join(root, file)
                 relative_path = os.path.relpath(root, source_dir)
                 output_file_dir = os.path.join(output_dir, relative_path)
@@ -50,4 +50,4 @@ if __name__ == "__main__":
     source_directory = sys.argv[1]
     output_directory = sys.argv[2]
 
-    decompile_ableton_scripts(source_directory, output_directory)
+    decompile(source_directory, output_directory)
