@@ -1,3 +1,6 @@
+include devel/makefile-bump
+include devel/makefile-tag
+
 # Use zsh or bash shell explicitly
 SHELL := /bin/zsh
 
@@ -53,13 +56,19 @@ $(VENV_DIR)/bin/activate: setup_pyenv
 	$(PYTHON) -m venv $(VENV_DIR)
 	@echo "Virtual environment created in $(VENV_DIR)"
 
-# Install dependencies and abletoolkit
-install: $(VENV_DIR)/bin/activate
+# Setup pre-commit hooks
+setup_pre_commit:
+	@echo "Setting up pre-commit hooks..."
+	pre-commit install --hook-type commit-msg --hook-type pre-push
+
+# Install dependencies, abletoolkit, and setup pre-commit hooks
+install: $(VENV_DIR)/bin/activate setup_pre_commit
 	$(VENV_DIR)/bin/pip install --upgrade pip
 	$(VENV_DIR)/bin/pip install -r requirements.txt
 	@echo "Dependencies installed"
 	$(VENV_DIR)/bin/pip install .
 	@echo "Abletoolkit installed"
+	@echo "Pre-commit hooks set up"
 
 # Run tests
 test: $(VENV_DIR)/bin/activate
@@ -73,16 +82,16 @@ lint: $(VENV_DIR)/bin/activate
 
 # Commitizen commit
 commit:
-    @git-cz
+	@git-cz
+
+# Create a new release of abletoolkit
+release:
+	@standard-version
+	@./devel/release.sh
 
 # Show the current version of abletoolkit
 version:
 	@echo src/abletoolkit/version.py | xargs grep __version__ | cut -d '"' -f 2
-
-# Create a new release of abletoolkit
-release:
-    @standard-version
-    @./devel/release.sh
 
 # Show help
 help:

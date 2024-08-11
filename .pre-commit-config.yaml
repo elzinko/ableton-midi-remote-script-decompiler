@@ -22,3 +22,9 @@
           language: system
           pass_filenames: false
           always_run: true
+    - repo: https://github.com/commitizen-tools/commitizen
+      rev: master
+      hooks:
+        - id: commitizen
+        - id: commitizen-branch
+          stages: [push]

@@ -1,5 +1,5 @@
-pylint
 setuptools
 uncompyle6
+pylint
 pre-commit
-autopep8
+commitizen
