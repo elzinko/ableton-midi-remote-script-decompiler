@@ -1,5 +1,5 @@
-include devel/makefile-bump
-include devel/makefile-tag
+include devel/Makefile-tag.mk
+include devel/Makefile-bump.mk
 
 # Use zsh or bash shell explicitly
 SHELL := /bin/zsh

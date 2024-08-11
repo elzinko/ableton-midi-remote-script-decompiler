@@ -2,4 +2,4 @@ fetch-tags:
 	git fetch --tags
 
 push-tag: fetch-tags
-    git push --follow-tags origin master
+	git push --follow-tags origin master
