@@ -3,3 +3,4 @@ uncompyle6
 pylint
 pre-commit
 commitizen
+pyinstaller

@@ -9,6 +9,7 @@ VENV_DIR := venv
 PYTHON_VERSION := 3.12.1
 PYENV_ROOT := $(HOME)/.pyenv
 PYTHON := $(PYENV_ROOT)/versions/$(PYTHON_VERSION)/bin/python
+APP_NAME := abletoolkit
 
 # Default target
 .DEFAULT_GOAL := install
@@ -79,6 +80,12 @@ test: $(VENV_DIR)/bin/activate
 lint: $(VENV_DIR)/bin/activate
 	$(VENV_DIR)/bin/pylint $(shell find abletoolkit -name "*.py") $(shell find tests -name "*.py")
 	@echo "Linting completed"
+
+# Build standalone executable with PyInstaller
+standalone: install
+	@echo "Building standalone executable with PyInstaller..."
+	$(VENV_DIR)/bin/pyinstaller --onefile --name $(APP_NAME) --specpath build/pyinstaller src/abletoolkit/cli.py
+	@echo "Executable $(APP_NAME) created successfully."
 
 # Commitizen commit
 commit:
