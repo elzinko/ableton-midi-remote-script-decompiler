@@ -7,15 +7,28 @@ AbleToolKit is a utility for developers working on Ableton's MIDI Remote scripts
 - Determining the Python version used to compile a `.pyc` file.
 - Decompiling compiled Python scripts in a specified directory.
 
+## Compatibility
+
+AbleToolKit is currently only compatible with macOS.
+It has been developed and tested on macOS Big Sur with an Intel CPU. Please note that while the tool may work on other versions of macOS or hardware configurations, these have not been officially tested and supported.
+
 ## Installation
 
-To install AbleToolKit, simply run the following command:
+To install AbleToolKit, clone this repository and then install the tool using:
 
 ```bash
 make install
 ```
 
-## Compatibility
+You can check all make available commands using :
+```bash
+make help
+```
 
-AbleToolKit is currently only compatible with macOS.
-It has been developed and tested on macOS Big Sur with an Intel CPU. Please note that while the tool may work on other versions of macOS or hardware configurations, these have not been officially tested and supported.
+## Run
+
+Use the following command to get help on how to run atk :
+
+```bash
+atk -h
+```
