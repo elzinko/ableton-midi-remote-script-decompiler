@@ -3,7 +3,6 @@ This module contains the command-line interface for the Abletoolkit package.
 """
 
 import argparse
-
 from abletoolkit import version
 from abletoolkit.decompile import decompile
 from abletoolkit.pyc_version import get_python_version_from_pyc
@@ -12,84 +11,141 @@ from abletoolkit.list_remote_script_directories import list_remote_script_direct
 
 ATK_VERSION = version.__version__
 
+def handle_ableton(args):
+    """
+    Handle the Ableton Live related commands.
+
+    Args:
+        args (argparse.Namespace): The parsed command-line arguments.
+    """
+    if args.list:
+        list_ableton_versions()
+
+def handle_scripts(args):
+    """
+    Handle the MIDI Remote Scripts related commands.
+
+    Args:
+        args (argparse.Namespace): The parsed command-line arguments.
+    """
+    if args.list:
+        list_remote_script_directories()
+
+def handle_pyc(args):
+    """
+    Handle the PYC file related commands.
+
+    Args:
+        args (argparse.Namespace): The parsed command-line arguments.
+    """
+    if args.version:
+        handle_pyc_version(args)
+    elif args.decompile:
+        handle_pyc_decompile(args)
+    else:
+        print("Please specify either --version or --decompile.")
+
+def handle_pyc_version(args):
+    """
+    Handle the determination of the Python version used to compile a .pyc file.
+
+    Args:
+        args (argparse.Namespace): The parsed command-line arguments.
+    """
+    if args.file_path:
+        pyc_version = get_python_version_from_pyc(args.file_path)
+        if pyc_version:
+            print(f"The .pyc file was compiled with Python {pyc_version}")
+        else:
+            print("Failed to determine the Python version")
+    else:
+        print("Please provide the path to the .pyc file.")
+
+def handle_pyc_decompile(args):
+    """
+    Handle the decompilation of a .pyc file.
+
+    Args:
+        args (argparse.Namespace): The parsed command-line arguments.
+    """
+    if args.file_path and args.output_dir:
+        decompile(args.file_path, args.output_dir)
+    else:
+        print("Please provide the path to the .pyc file and the output directory.")
+
+command_handlers = {
+    "ableton": handle_ableton,
+    "scripts": handle_scripts,
+    "pyc": handle_pyc
+}
 
 def main():
     """
     Main entry point for the Abletoolkit command-line interface.
     """
-
     parser = argparse.ArgumentParser(
-        description="Ableton Toolkit (ATK): A set of tools for working with Ableton Live."
-    )
-    parser.add_argument(
-        "-v", "--version", action="version", version=f"{ATK_VERSION}"
+        description="Ableton Toolkit (ATK): A set of tools for working with Ableton Live.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
-    subparsers = parser.add_subparsers(dest="command")
+    parser.add_argument("-v", "--version", action="version", version=f"ATK {ATK_VERSION}")
 
-    # Ableton versions listing sub-command
-    subparsers.add_parser(
-        "ableton_versions",
-        help="List installed versions of Ableton Live.",
-        aliases=["av"],
+    subparsers = parser.add_subparsers(dest="category")
+
+    # Sub-command for Ableton-related actions
+    ableton_parser = subparsers.add_parser(
+        "ableton",
+        help="Ableton Live related commands"
+    )
+    ableton_parser.add_argument(
+        "-l", "--list",
+        action="store_true",
+        help="List installed versions of Ableton Live."
     )
 
-    # MIDI remote scripts listing sub-command
-    subparsers.add_parser(
-        "list_remote_scripts",
-        help="List directories of MIDI Remote Scripts.",
-        aliases=["lrs"],
+    # Sub-command for MIDI Remote Scripts actions
+    scripts_parser = subparsers.add_parser(
+        "scripts",
+        help="MIDI Remote Scripts related commands"
+    )
+    scripts_parser.add_argument(
+        "-l", "--list",
+        action="store_true",
+        help="List directories of MIDI Remote Scripts."
     )
 
-    # PYC version sub-command
-    pyc_version_parser = subparsers.add_parser(
-        "pyc_version",
-        help="Determine the Python version used to compile a .pyc file.",
-        aliases=["pycv"],
+    # Sub-command for PYC file actions
+    pyc_parser = subparsers.add_parser(
+        "pyc", help="PYC file related commands"
     )
-    pyc_version_parser.add_argument(
+    pyc_parser.add_argument(
+        "-v", "--version",
+        action="store_true",
+        help="Determine the Python version used to compile a .pyc file."
+    )
+    pyc_parser.add_argument(
+        "-d", "--decompile",
+        action="store_true",
+        help="Decompile a .pyc file."
+    )
+    pyc_parser.add_argument(
         "file_path",
+        nargs="?",
         type=str,
-        help="Path to the .pyc file.",
+        help="Path to the .pyc file."
     )
-
-    # Sub-command for decompiling
-    decompile_parser = subparsers.add_parser(
-        "decompile",
-        help="Decompile Ableton compiled files.",
-        aliases=["d"],
-    )
-    decompile_parser.add_argument(
-        "source",
+    pyc_parser.add_argument(
+        "output_dir",
+        nargs="?",
         type=str,
-        help="Path to the source directory containing compiled files.",
-    )
-    decompile_parser.add_argument(
-        "output",
-        type=str,
-        help="Path to the output directory to store decompiled files.",
+        help="Output directory for decompiled files."
     )
 
     args = parser.parse_args()
-
-    if args.command in ["list_versions", "lv"]:
-        list_ableton_versions()
-    elif args.command in ["list_remote_scripts", "lrs"]:
-        list_remote_script_directories()
-    elif args.command in ["pyc_version", "pyc"]:
-        if args.version:
-            pyc_version = get_python_version_from_pyc(args.file_path)
-            if pyc_version:
-                print(f"The .pyc file was compiled with Python {pyc_version}")
-            else:
-                print("Failed to determine the Python version")
-        else:
-            parser.print_help()
-    elif args.command in ["decompile", "dcp"]:
-        decompile(args.source, args.output)
+    if args.category in command_handlers:
+        command_handlers[args.category](args)
     else:
         parser.print_help()
-
 
 if __name__ == "__main__":
     main()
