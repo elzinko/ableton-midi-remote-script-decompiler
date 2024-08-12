@@ -1,3 +1,9 @@
+## 0.6.0 (2024-08-12)
+
+### Fix
+
+- version command and format
+
 ## 0.5.0 (2024-08-12)
 
 ### Fix
