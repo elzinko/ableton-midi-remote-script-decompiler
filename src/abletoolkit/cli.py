@@ -91,9 +91,7 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
-    parser.add_argument(
-        "-v", "--version", action="version", version=f"ATK {ATK_VERSION}"
-    )
+    parser.add_argument("-v", "--version", action="version", version=f"{ATK_VERSION}")
 
     subparsers = parser.add_subparsers(dest="category")
 
