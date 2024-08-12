@@ -1,12 +1,13 @@
 """
-This module lists the installed versions of Ableton Live on the system and their installation paths.
+This submodule contains functions to determine the Python version used to compile a .pyc file.
 """
 
 import os
 import glob
 import platform
 
-def list_ableton_versions():
+
+def get_ableton_installed_versions():
     """
     Lists the installed versions of Ableton Live on the system and their installation paths.
     Works on macOS. For Windows, a different path would need to be used.
@@ -24,6 +25,3 @@ def list_ableton_versions():
         for path in ableton_dirs:
             version = os.path.basename(path)
             print(f"- {version} : {path}")
-
-if __name__ == "__main__":
-    list_ableton_versions()

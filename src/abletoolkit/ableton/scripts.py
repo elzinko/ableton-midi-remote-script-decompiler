@@ -1,5 +1,5 @@
 """
-This module lists the directories where MIDI Remote Scripts are deployed.
+This submodule contains functions to determine the Python version used to compile a .pyc file.
 """
 
 import glob
@@ -7,10 +7,9 @@ import platform
 from pathlib import Path
 
 
-def list_remote_script_directories():
+def get_midi_remote_script_directories():
     """
-    Lists the directories where MIDI Remote Scripts are deployed.
-    Includes a specific path for macOS.
+    Lists the Ableton directories where midi remote scripts are deployed.
     """
     if platform.system() == "Darwin":  # macOS
         user_dir = Path.home()
@@ -33,7 +32,3 @@ def list_remote_script_directories():
         print("Found MIDI Remote Scripts directories:")
         for found_dir in found_dirs:
             print(f"- {found_dir}")
-
-
-if __name__ == "__main__":
-    list_remote_script_directories()

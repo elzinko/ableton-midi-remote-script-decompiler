@@ -4,7 +4,7 @@ This module contains the tests for the pyc_version module.
 
 import unittest
 from pathlib import Path
-from src.abletoolkit.pyc_version import get_python_version_from_pyc
+from src.abletoolkit.pyc.version import get_python_version
 
 
 class TestPycVersion(unittest.TestCase):
@@ -44,14 +44,14 @@ class TestPycVersion(unittest.TestCase):
         """
         Test if the .pyc file compiled with Python 3.7 is correctly identified.
         """
-        version = get_python_version_from_pyc(self.pyc_file_ableton_11)
+        version = get_python_version(self.pyc_file_ableton_11)
         self.assertEqual(version, "3.7", f"Expected '3.7', but got '{version}'")
 
     def test_python_version_38(self):
         """
         Test if the .pyc file compiled with Python 3.7 is correctly identified.
         """
-        version = get_python_version_from_pyc(self.pyc_file_ableton_12)
+        version = get_python_version(self.pyc_file_ableton_12)
         self.assertEqual(version, "3.7", f"Expected '3.7', but got '{version}'")
 
 

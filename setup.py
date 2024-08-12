@@ -32,7 +32,6 @@ setup(
     },
     install_requires=[
         "uncompyle6",
-
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
