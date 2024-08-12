@@ -1,3 +1,14 @@
+## 0.5.0 (2024-08-12)
+
+### Fix
+
+- update cli commands
+
+### Refactor
+
+- organized client commands
+- removed unnecessary file
+
 ## 0.4.0 (2024-08-11)
 
 ### Feat
