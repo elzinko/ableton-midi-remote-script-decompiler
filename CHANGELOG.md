@@ -1,3 +1,9 @@
+## 0.11.0 (2024-08-13)
+
+### Fix
+
+- avoid zsh use in makefile for github compatibility
+
 ## 0.10.0 (2024-08-13)
 
 ### Refactor
