@@ -1,3 +1,9 @@
+## 0.12.0 (2024-08-13)
+
+### Fix
+
+- update bundle generation process
+
 ## 0.11.0 (2024-08-13)
 
 ### Fix
