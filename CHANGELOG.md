@@ -1,3 +1,9 @@
+## 0.13.0 (2024-08-13)
+
+### Fix
+
+-  uase bash instead of zsh for github compatibility
+
 ## 0.12.0 (2024-08-13)
 
 ### Fix
