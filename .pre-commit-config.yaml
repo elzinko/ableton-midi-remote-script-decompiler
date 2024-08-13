@@ -8,10 +8,15 @@
 
     - repo: local
       hooks:
+        - id: setup-venv
+          name: Setup Virtual Environment
+          entry: make setup-venv
+          language: system
+          pass_filenames: false
         - id: pylint
           name: Run pylint
           entry: ./venv/bin/pylint
-          language: python
+          language: system
           types: [python]
           pass_filenames: true
           additional_dependencies: []
@@ -22,6 +27,7 @@
           language: system
           pass_filenames: false
           always_run: true
+
     - repo: https://github.com/commitizen-tools/commitizen
       rev: master
       hooks:
