@@ -22,7 +22,7 @@ jobs:
 
     - name: Create Bundle
       run: |
-        make package-bundle
+        make bundle-release
 
     - name: Create Release
       id: create_release
