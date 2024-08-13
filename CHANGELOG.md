@@ -1,3 +1,9 @@
+## 0.15.0 (2024-08-13)
+
+### Fix
+
+- upload release into github
+
 ## 0.14.0 (2024-08-13)
 
 ### Fix
