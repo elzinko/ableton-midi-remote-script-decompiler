@@ -6,10 +6,15 @@ SHELL := /bin/zsh
 
 # Variables
 VENV_DIR := venv
+BUNDLE_DIR := bundle
+BUILD_DIR := build
+DIST_DIR := dist
+DOCS_DIR := docs
+APP_NAME := abletoolkit
 PYTHON_VERSION := 3.12.1
 PYENV_ROOT := $(HOME)/.pyenv
 PYTHON := $(PYENV_ROOT)/versions/$(PYTHON_VERSION)/bin/python
-APP_NAME := abletoolkit
+
 
 # Default target
 .DEFAULT_GOAL := install
@@ -21,7 +26,8 @@ clean:
 	find . -type d -name '__pycache__' -exec rm -r {} +
 	find . -type f -name '*.pyc' -delete
 	find . -type f -name '*.pyo' -delete
-	@echo "Cleaned up all generated files, including the venv and build artifacts."
+	rm -rf $(BUILD_DIR) $(DIST_DIR) $(BUNDLE_DIR) $(DOCS_DIR)
+	@echo "Cleaned up all generated files."
 
 
 # Check if pyenv is installed
@@ -81,24 +87,9 @@ lint: $(VENV_DIR)/bin/activate
 	$(VENV_DIR)/bin/pylint $(shell find abletoolkit -name "*.py") $(shell find tests -name "*.py")
 	@echo "Linting completed"
 
-# Build standalone executable with PyInstaller
-standalone: install
-	@echo "Building standalone executable with PyInstaller..."
-	$(VENV_DIR)/bin/pyinstaller --onefile --name $(APP_NAME) --specpath build/pyinstaller src/abletoolkit/cli.py
-	@echo "Executable $(APP_NAME) created successfully."
-
-# Commitizen commit
-commit:
-	@git-cz
-
-# Create a new release of abletoolkit
-release:
-	@standard-version
-	@./devel/release.sh
-
 # Show the current version of abletoolkit
 version:
-	@echo src/abletoolkit/version.py | xargs grep __version__ | cut -d '"' -f 2
+	@python -c "from src.abletoolkit.version import __version__; print(__version__)"
 
 # Show help
 help:
@@ -110,5 +101,6 @@ help:
 	@echo "  clean: Clean everything, including venv and build artifacts"
 	@echo "  version: Show the current version of abletoolkit"
 	@echo "  release version=1.0.0: Create a new release of abletoolkit"
+	@echo "  standalone: Build standalone executable with PyInstaller"
 
 .PHONY: install test lint clean setup_pyenv version release help

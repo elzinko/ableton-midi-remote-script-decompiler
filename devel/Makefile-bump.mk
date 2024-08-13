@@ -1,3 +1,6 @@
+commit:
+	@git-cz
+
 bump-version-minor:
 	cz bump --increment MINOR
 
