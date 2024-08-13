@@ -1,6 +1,3 @@
-# Use zsh or bash shell explicitly
-SHELL := /bin/zsh
-
 # Variables
 VENV_DIR := venv
 BUNDLE_DIR := bundle
