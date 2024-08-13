@@ -19,7 +19,7 @@ clean:
 	@echo "Cleaned up."
 
 # Check if pyenv is installed
-install_pyenv:
+install-pyenv:
 	@echo "Checking if pyenv is installed..."
 	@if [ ! -d "$(PYENV_ROOT)" ]; then \
 		echo "pyenv not found. Installing pyenv..."; \
@@ -64,16 +64,16 @@ setup-venv: setup-pyenv
 	$(PYTHON) -m venv $(VENV_DIR)
 	@echo "Virtual environment created in $(VENV_DIR)"
 
-# Setup pre-commit hooks
-setup-pre-commit:
-	@echo "Setting up pre-commit hooks..."
-	pre-commit install --hook-type commit-msg --hook-type pre-push
-	@echo "Pre-commit hooks set up"
-
 # Install dependencies, abletoolkit, and setup pre-commit hooks
-install: setup-venv setup-pre-commit
+install: setup-venv
 	@echo "Installing dependencies and Abletoolkit..."
 	@mkdir -p $(BUILD_DIR)
 	$(VENV_DIR)/bin/pip install --upgrade pip
 	$(VENV_DIR)/bin/pip install -r requirements.txt .
 	@echo "Dependencies and Abletoolkit installed"
+
+# Setup pre-commit hooks
+setup-pre-commit: install
+	@echo "Setting up pre-commit hooks..."
+	$(VENV_DIR)/bin/pre-commit install --hook-type commit-msg --hook-type pre-push
+	@echo "Pre-commit hooks set up"
