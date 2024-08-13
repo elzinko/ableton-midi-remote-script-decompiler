@@ -34,16 +34,29 @@ install_pyenv:
 	fi
 
 # Ensure pyenv is set up correctly and the Python version is installed
-setup-pyenv: install_pyenv
-	@echo "Initializing pyenv..."
-	@if ! $(PYENV_ROOT)/bin/pyenv versions --bare | grep -q "^$(PYTHON_VERSION)$$"; then \
+setup-pyenv:
+	@echo "Checking if pyenv is installed..."
+	@if ! command -v pyenv >/dev/null 2>&1; then \
+		echo "pyenv not found. Installing pyenv..."; \
+		curl https://pyenv.run | bash; \
+		export PATH="$$HOME/.pyenv/bin:$$PATH"; \
+		export PYENV_ROOT="$$HOME/.pyenv"; \
+		"$$HOME/.pyenv/bin/pyenv" init --path; \
+		"$$HOME/.pyenv/bin/pyenv" init -; \
+		"$$HOME/.pyenv/bin/pyenv" virtualenv-init -; \
+		echo "pyenv installed and initialized."; \
+	else \
+		echo "pyenv is already installed."; \
+	fi; \
+	export PATH="$$HOME/.pyenv/bin:$$PATH"; \
+	export PYENV_ROOT="$$HOME/.pyenv"; \
+	if ! "$$PYENV_ROOT/bin/pyenv" versions --bare | grep -q "^$(PYTHON_VERSION)$$"; then \
 		echo "Python $(PYTHON_VERSION) not found. Installing via pyenv..."; \
-		$(PYENV_ROOT)/bin/pyenv install $(PYTHON_VERSION); \
+		"$$PYENV_ROOT/bin/pyenv" install $(PYTHON_VERSION); \
 	else \
 		echo "Python $(PYTHON_VERSION) is already installed via pyenv."; \
-	fi
-	@$(PYENV_ROOT)/bin/pyenv local $(PYTHON_VERSION)
-	@echo "Python $(PYTHON_VERSION) set as local version."
+	fi; \
+	"$$PYENV_ROOT/bin/pyenv" global $(PYTHON_VERSION)
 
 # Create a virtual environment
 setup-venv: setup-pyenv
