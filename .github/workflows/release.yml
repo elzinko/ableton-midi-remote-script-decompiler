@@ -20,6 +20,10 @@ jobs:
         changelog_content=$(cat CHANGELOG.md)
         echo "::set-output name=changelog::$changelog_content"
 
+    - name: Create Bundle
+      run: |
+        make package-bundle
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -31,3 +35,9 @@ jobs:
         body: ${{ steps.read_changelog.outputs.changelog }} # Using the content from CHANGELOG.md
         draft: false
         prerelease: false
+
+    - name: Upload Bundle Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: abletoolkit-bundle
+        path: dist/abletoolkit-bundle.zip

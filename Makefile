@@ -1,5 +1,6 @@
 include devel/Makefile-tag.mk
 include devel/Makefile-bump.mk
+include devel/Makefile-bundle.mk
 
 # Use zsh or bash shell explicitly
 SHELL := /bin/zsh
@@ -21,12 +22,12 @@ PYTHON := $(PYENV_ROOT)/versions/$(PYTHON_VERSION)/bin/python
 
 # Clean everything, including venv and build artifacts
 clean:
+	rm -rf $(BUILD_DIR) $(DIST_DIR) $(BUNDLE_DIR) $(DOCS_DIR)
 	rm -rf $(VENV_DIR)
-	rm -rf build dist *.egg-info
 	find . -type d -name '__pycache__' -exec rm -r {} +
 	find . -type f -name '*.pyc' -delete
 	find . -type f -name '*.pyo' -delete
-	rm -rf $(BUILD_DIR) $(DIST_DIR) $(BUNDLE_DIR) $(DOCS_DIR)
+	find . -type f -name '*.egg-info' -delete
 	@echo "Cleaned up all generated files."
 
 
@@ -95,12 +96,35 @@ version:
 help:
 	@echo "Usage: make [target]"
 	@echo "Targets:"
+	@echo "  clean: Clean everything, including venv and build artifacts"
 	@echo "  install: Install dependencies and abletoolkit"
 	@echo "  test: Run tests"
 	@echo "  lint: Lint the code"
-	@echo "  clean: Clean everything, including venv and build artifacts"
 	@echo "  version: Show the current version of abletoolkit"
-	@echo "  release version=1.0.0: Create a new release of abletoolkit"
-	@echo "  standalone: Build standalone executable with PyInstaller"
+# Makefile-tag.mk
+	@echo	"  ===== TAGS ====="
+	@echo	"  fetch-tags: Fetch tags from the remote repository"
+	@echo	"  push-tag: Push tags to the remote repository"
+# Makefile-bump.mk
+	@echo	"  ===== BUMP ====="
+	@echo	"  bump-version-minor: Bump the minor version"
+	@echo	"  bump-version-major: Bump the major version"
+	@echo	"  bump-version-patch: Bump the patch version"
+	@echo	"  bump-specific-version: Bump a specific version"
+# add Makefile-bundle.mk
+	@echo	"  ===== BUNDLE ====="
+	@echo	"  setup-bundle: Create a virtual environment and install dependencies"
+	@echo	"  bundle-release: Bundle release step: create executable and prepare docs"
+	@echo	"  generate-docs: Generate documentation in markdown format"
+	@echo	"  package-bundle: Package everything into a zip file"
 
-.PHONY: install test lint clean setup_pyenv version release help
+.PHONY: clean install test lint setup_pyenv version help
+		fetch-tags push-tag
+		bump-version-minor
+		bump-version-major
+		bump-version-patch
+		bump-specific-version
+		setup-bundle
+		bundle-release
+		generate-docs
+		package-bundle
