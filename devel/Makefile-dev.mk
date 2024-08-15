@@ -8,14 +8,12 @@ setup-pre-commit:
 		exit 1; \
 	fi
 	@echo "Setting up pre-commit hooks..."
-	$(VENV_DIR)/bin/pip install pre-commit
 	pre-commit install --hook-type commit-msg --hook-type pre-push
 
 # Install and add pre-commit
 install-dev:
 	@$(MAKE) -f devel/Makefile-install.mk install
 	@$(MAKE) -f devel/Makefile-dev.mk setup-pre-commit
-	@echo "Pre-commit hooks set up"
 
 # Run tests
 test:

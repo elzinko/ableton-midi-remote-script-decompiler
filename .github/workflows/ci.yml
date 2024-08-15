@@ -3,57 +3,74 @@ name: Build and Release
 on:
   push:
     branches:
-      - main
+      - '**' # Matches every branch
     tags:
-      - '*'  # Triggers on any tag
+      - '*' # matches every branch that doesn't contain a '/'
+
+env:
+  PYTHON_VERSION: 3.12.1
 
 jobs:
   build:
-    branches:
-      - '*'  # Triggers on any branch
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install
-      run: |
-        make install
+    - name: Print Python version
+      run: echo "Python version is $PYTHON_VERSION"
+      shell: bash
 
-    - name: Lint
-      run: |
-        make lint
+    - name: Cache pyenv folder
+      uses: actions/cache@v4
+      with:
+        path: ~/.pyenv
+        key: ${{ runner.os }}-pyenv-${{ env.PYTHON_VERSION }}
+        restore-keys: |
+          ${{ runner.os }}-pyenv-
 
-    - name: Tests
-      run: |
-        make test
+    - name: Cache venv folder
+      id: cache-venv
+      uses: actions/cache@v4
+      with:
+        path: venv
+        key: ${{ runner.os }}-venv-${{ env.PYTHON_VERSION }}-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-venv-${{ env.PYTHON_VERSION }}
+          ${{ runner.os }}-venv-
 
     - name: Cache pip packages
       id: cache-pip
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
         restore-keys: |
+          ${{ runner.os }}-pip-${{ env.PYTHON_VERSION }}-
           ${{ runner.os }}-pip-
 
-    - name: Cache venv folder
-      uses: actions/cache@v3
-      with:
-        path: venv
-        key: ${{ runner.os }}-venv-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-venv-${{ matrix.python-version }}
-
     - name: Cache build Artifacts
-        id: cache-build
-      uses: actions/cache@v3
+      id: cache-build
+      uses: actions/cache@v4
       with:
         path: build
         key: ${{ runner.os }}-build-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-build-${{ github.sha }}
+
+    - name: Install
+      if: steps.cache-build.outputs.cache-hit != 'true'
+      run: |
+        make install
+
+    - name: Lint
+      if: steps.cache-build.outputs.cache-hit != 'true'
+      run: |
+        make lint
+
+    - name: Tests
+      if: steps.cache-build.outputs.cache-hit != 'true'
+      run: |
+        make test
 
   release:
     runs-on: ubuntu-latest
@@ -63,18 +80,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-     - name: Restore cache for venv
-      uses: actions/cache@v3
-      with:
-        path: venv
-        key: ${{ runner.os }}-venv-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
-
-    - name: Restore Build Artifacts
-      uses: actions/cache@v3
-      with:
-        path: build
-        key: ${{ runner.os }}-build-${{ github.sha }}
 
     - name: Create Bundle
       run: |
@@ -104,6 +109,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: dist/abletoolkit-bundle.zip
+        asset_path: bundle/abletoolkit-bundle.zip
         asset_name: abletoolkit-bundle.zip
         asset_content_type: application/zip
