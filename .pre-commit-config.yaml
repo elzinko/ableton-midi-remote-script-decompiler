@@ -8,9 +8,9 @@
 
     - repo: local
       hooks:
-        - id: setup-venv
-          name: Setup Virtual Environment
-          entry: make setup-venv
+        - id: create-venv
+          name: Create Virtual Environment
+          entry: make create-venv
           language: system
           pass_filenames: false
         - id: pylint

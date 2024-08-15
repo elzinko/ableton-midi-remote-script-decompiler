@@ -12,80 +12,82 @@ PYTHON := $(PYENV_ROOT)/versions/$(PYTHON_VERSION)/bin/python
 # Default target
 .DEFAULT_GOAL := install
 
-# Clean everything, including venv and build artifacts
+
+# Install tasks
+
 clean:
 	@$(MAKE) -f devel/Makefile-install.mk clean
 
-# Check if pyenv is installed and set up the environment
 setup-pyenv:
 	@$(MAKE) -f devel/Makefile-install.mk setup-pyenv
 
-setup-venv:
-	@$(MAKE) -f devel/Makefile-install.mk setup-venv
+create-venv:
+	@$(MAKE) -f devel/Makefile-install.mk create-venv
 
-# Create a virtual environment and install dependencies
-install: setup-pyenv
+install:
 	@$(MAKE) -f devel/Makefile-install.mk install
 
-# Run tests
+# Dev tasks
+
 test:
-	@$(MAKE) -f devel/Makefile-install.mk test
+	@$(MAKE) -f devel/Makefile-dev.mk test
 
-# Lint the code
 lint:
-	@$(MAKE) -f devel/Makefile-install.mk Lint
+	@$(MAKE) -f devel/Makefile-dev.mk lint
 
-# Show the current version of abletoolkit
+commit:
+	@$(MAKE) -f devel/Makefile-dev.mk commit
+
 version:
-	@$(MAKE) -f devel/Makefile-install.mk version
+	@$(MAKE) -f devel/Makefile-dev.mk version
 
-# Bump the version
 bump-version-minor:
-	@$(MAKE) -f devel/Makefile-bump.mk bump-version-minor
+	@$(MAKE) -f devel/Makefile-dev.mk bump-version-minor
 
 bump-version-major:
-	@$(MAKE) -f devel/Makefile-bump.mk bump-version-major
+	@$(MAKE) -f devel/Makefile-dev.mk bump-version-major
 
 bump-version-patch:
-	@$(MAKE) -f devel/Makefile-bump.mk bump-version-patch
+	@$(MAKE) -f devel/Makefile-dev.mk bump-version-patch
 
 bump-specific-version:
-	@$(MAKE) -f devel/Makefile-bump.mk bump-specific-version
+	@$(MAKE) -f devel/Makefile-dev.mk bump-specific-version
 
-# Tag management
 fetch-tags:
-	@$(MAKE) -f devel/Makefile-tag.mk fetch-tags
+	@$(MAKE) -f devel/Makefile-dev.mk fetch-tags
 
 push-tag:
-	@$(MAKE) -f devel/Makefile-tag.mk push-tag
+	@$(MAKE) -f devel/Makefile-dev.mk push-tag
 
-# Bundle release step: create executable and prepare docs
+# CI tasks
+
 bundle-release:
-	@$(MAKE) -f devel/Makefile-bundle.mk bundle-release
+	@$(MAKE) -f devel/Makefile-ci.mk bundle-release
 
-# Package everything into a zip file
 package-bundle:
-	@$(MAKE) -f devel/Makefile-bundle.mk package-bundle
+	@$(MAKE) -f devel/Makefile-ci.mk package-bundle
 
 # Show help
 help:
 	@echo "Usage: make [target]"
 	@echo "Available targets:"
-	@echo "  clean: Clean everything, including venv and build artifacts"
-	@echo "  setup-pyenv: Check if pyenv is installed and set up the environment"
-	@echo "  setup-venv: Create a virtual environment and install dependencies"
-	@echo "  install: Install dependencies and abletoolkit"
+	@echo "  clean: Clean the project"
+	@echo "  setup-pyenv: Setup pyenv"
+	@echo "  create-venv: Setup virtual environment"
+	@echo "  install: Install the project"
 	@echo "  test: Run tests"
 	@echo "  lint: Lint the code"
+	@echo "  commit: Commitizen commit"
 	@echo "  version: Show the current version of abletoolkit"
-	@echo "  ===== VERSIONNING ======"
-	@echo "  bump-version-minor: Bump the minor version"
-	@echo "  bump-version-major: Bump the major version"
-	@echo "  bump-version-patch: Bump the patch version"
-	@echo "  bump-specific-version: Bump a specific version"
-	@echo "  ===== TAGS ======"
+	@echo "  bump-version-minor: Bump the version to the next minor"
+	@echo "  bump-version-major: Bump the version to the next major"
+	@echo "  bump-version-patch: Bump the version to the next patch"
+	@echo "  bump-specific-version: Bump the version to a specific version"
 	@echo "  fetch-tags: Fetch tags from the remote repository"
 	@echo "  push-tag: Push the tag to the remote repository"
-	@echo "  ===== GITHUB BUNDLE ONLY ======"
-	@echo "  bundle-release: Create executable and prepare docs"
-	@echo "  package-bundle: Package everything into a zip file"
+	@echo "  bundle-release: Bundle the release"
+	@echo "  package-bundle: Package the bundle"
+	@echo "  help: Show this help message"
+	@echo ""
+	@echo "For more information, please refer to the README.md file."
+	@echo ""
