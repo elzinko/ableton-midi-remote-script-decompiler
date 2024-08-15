@@ -11,6 +11,10 @@ DIST_DIR := dist
 
 # Bundle release step: create executable and prepare docs
 bundle-release:
+	if [ ! -d "$(VENV_DIR)" ] || [ ! -f "$(VENV_DIR)/bin/activate" ]; then \
+		echo "Virtual environment is not properly set up. Please run 'make install' first."; \
+		exit 1; \
+	fi
 	@echo "Building standalone executable with PyInstaller..."
 	@mkdir -p $(BUNDLE_DIR)
 	$(VENV_DIR)/bin/pyinstaller --onefile --name $(APP_NAME) --distpath $(BUNDLE_DIR) --workpath $(BUILD_DIR)/work --specpath $(BUILD_DIR) src/$(APP_NAME)/cli.py

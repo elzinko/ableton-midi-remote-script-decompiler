@@ -1,26 +1,38 @@
 name: Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - '**'  # All branches except tags
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.12.1"]
+
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Analysing the code with pylint
+        make install
+
+    - name: Run Linting
       run: |
-        pylint $(git ls-files '*.py')
-    - name: Test with unittest
+        make lint
+
+    - name: Run Tests
       run: |
-        python -m unittest discover -s tests -v
+        make test
+
+    - name: Cache Build Artifacts
+      uses: actions/cache@v3
+      with:
+        path: |
+          venv
+          build
+        key: ${{ runner.os }}-build-${{ github.sha }}

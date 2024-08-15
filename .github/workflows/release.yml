@@ -13,16 +13,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Read CHANGELOG.md
-      id: read_changelog
-      run: |
-        # Read the content of CHANGELOG.md into a variable
-        changelog_content=$(cat CHANGELOG.md)
-        echo "::set-output name=changelog::$changelog_content"
+    - name: Restore Build Artifacts
+      uses: actions/cache@v3
+      with:
+        path: |
+          venv
+          build
+        key: ${{ runner.os }}-build-${{ github.sha }}
 
     - name: Create Bundle
       run: |
         make bundle-release
+
+    - name: Read CHANGELOG.md
+      id: read_changelog
+      run: |
+        changelog_content=$(cat CHANGELOG.md)
+        echo "::set-output name=changelog::$changelog_content"
 
     - name: Create Release
       id: create_release
@@ -32,7 +39,7 @@ jobs:
       with:
         tag_name: ${{ github.ref_name }}
         release_name: ${{ github.ref_name }}
-        body: ${{ steps.read_changelog.outputs.changelog }} # Using the content from CHANGELOG.md
+        body: ${{ steps.read_changelog.outputs.changelog }}
         draft: false
         prerelease: false
 

@@ -60,7 +60,7 @@ push-tag:
 	@$(MAKE) -f devel/Makefile-tag.mk push-tag
 
 # Bundle release step: create executable and prepare docs
-bundle-release: install
+bundle-release:
 	@$(MAKE) -f devel/Makefile-bundle.mk bundle-release
 
 # Package everything into a zip file
