@@ -81,6 +81,38 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Restore pyenv cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.pyenv
+        key: ${{ runner.os }}-pyenv-${{ env.PYTHON_VERSION }}
+        restore-keys: |
+          ${{ runner.os }}-pyenv-
+
+    - name: Restore venv cache
+      uses: actions/cache@v4
+      with:
+        path: venv
+        key: ${{ runner.os }}-venv-${{ env.PYTHON_VERSION }}-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-venv-${{ env.PYTHON_VERSION }}
+
+    - name: Restore pip packages cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ env.PYTHON_VERSION }}-
+
+    - name: Restore build Artifacts cache
+      uses: actions/cache@v4
+      with:
+        path: build
+        key: ${{ runner.os }}-build-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ github.sha }}
+
     - name: Create Bundle
       run: |
         make bundle-release
