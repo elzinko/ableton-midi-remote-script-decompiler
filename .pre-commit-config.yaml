@@ -1,36 +1,40 @@
-  repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v3.4.0
-      hooks:
-        - id: trailing-whitespace
-        - id: end-of-file-fixer
-        - id: check-added-large-files
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        stages: [commit]
+      - id: end-of-file-fixer
+        stages: [commit]
+      - id: check-added-large-files
+        stages: [commit]
 
-    - repo: local
-      hooks:
-        - id: create-venv
-          name: Create Virtual Environment
-          entry: make create-venv
-          language: system
-          pass_filenames: false
-        - id: pylint
-          name: Run pylint
-          entry: ./venv/bin/pylint
-          language: system
-          types: [python]
-          pass_filenames: true
-          additional_dependencies: []
-        - id: unittest
-          name: Run unittest
-          entry: ./venv/bin/python  # Path to the Python interpreter in your virtual environment
-          args: ['-m', 'unittest', 'discover', '-v']
-          language: system
-          pass_filenames: false
-          always_run: true
+  - repo: local
+    hooks:
+      - id: create-venv
+        name: Create Virtual Environment
+        entry: make create-venv
+        language: system
+        pass_filenames: false
+        stages: [push]
 
-    - repo: https://github.com/commitizen-tools/commitizen
-      rev: master
-      hooks:
-        - id: commitizen
-        - id: commitizen-branch
-          stages: [push]
+      - id: lint
+        name: Run lint
+        entry: make lint
+        language: system
+        pass_filenames: false
+        stages: [commit]
+
+      - id: pre-push-test
+        name: Run tests before push
+        entry: make test
+        language: system
+        pass_filenames: false
+        stages: [push]
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.29.0
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+        stages: [push]

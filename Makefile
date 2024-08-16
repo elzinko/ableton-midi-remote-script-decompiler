@@ -18,6 +18,9 @@ PYTHON := $(PYENV_ROOT)/versions/$(PYTHON_VERSION)/bin/python
 clean:
 	@$(MAKE) -f devel/Makefile-install.mk clean
 
+python-version:
+	@$(MAKE) -f devel/Makefile-install.mk python-version
+
 setup-pyenv:
 	@$(MAKE) -f devel/Makefile-install.mk setup-pyenv
 
@@ -50,28 +53,26 @@ bump-version-major:
 bump-version-patch:
 	@$(MAKE) -f devel/Makefile-dev.mk bump-version-patch
 
-bump-specific-version:
-	@$(MAKE) -f devel/Makefile-dev.mk bump-specific-version
-
 fetch-tags:
 	@$(MAKE) -f devel/Makefile-dev.mk fetch-tags
 
 push-tag:
 	@$(MAKE) -f devel/Makefile-dev.mk push-tag
 
-# CI tasks
+# Bundle tasks
 
 bundle-release:
-	@$(MAKE) -f devel/Makefile-ci.mk bundle-release
+	@$(MAKE) -f devel/Makefile-bundle.mk bundle-release
 
 package-bundle:
-	@$(MAKE) -f devel/Makefile-ci.mk package-bundle
+	@$(MAKE) -f devel/Makefile-bundle.mk package-bundle
 
 # Show help
 help:
 	@echo "Usage: make [target]"
 	@echo "Available targets:"
 	@echo "  clean: Clean the project"
+	@echo "  python-version: Get the Python version"
 	@echo "  setup-pyenv: Setup pyenv"
 	@echo "  create-venv: Setup virtual environment"
 	@echo "  install: Install the project"
@@ -82,7 +83,6 @@ help:
 	@echo "  bump-version-minor: Bump the version to the next minor"
 	@echo "  bump-version-major: Bump the version to the next major"
 	@echo "  bump-version-patch: Bump the version to the next patch"
-	@echo "  bump-specific-version: Bump the version to a specific version"
 	@echo "  fetch-tags: Fetch tags from the remote repository"
 	@echo "  push-tag: Push the tag to the remote repository"
 	@echo "  bundle-release: Bundle the release"

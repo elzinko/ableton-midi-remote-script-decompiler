@@ -1,3 +1,5 @@
+[![.github/workflows/ci.yml](https://github.com/elzinko/abletoolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/elzinko/abletoolkit/actions/workflows/ci.yml)
+
 ## Description
 
 AbleToolKit is a utility for developers working on Ableton's MIDI Remote scripts. It provides a variety of features to simplify and enhance the development process, including:
