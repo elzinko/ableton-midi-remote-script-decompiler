@@ -1,3 +1,9 @@
+## 0.22.0 (2024-08-16)
+
+### Fix
+
+- added missing user guide to bundle
+
 ## 0.21.0 (2024-08-16)
 
 ### Fix
