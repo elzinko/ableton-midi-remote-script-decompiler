@@ -25,7 +25,7 @@ bundle-release:
 package-bundle:
 	@echo "Packaging the bundle..."
 	@cp $(DOCS_DIR)/$(APP_NAME)-user-guide.md $(BUNDLE_DIR)
-	@zip -j -r $(BUNDLE_DIR)/$(APP_NAME)-bundle.zip $(BUNDLE_DIR)/$(APP_NAME) $(APP_NAME)-user-guide.md
+	@zip -j -r $(BUNDLE_DIR)/$(APP_NAME)-bundle.zip $(BUNDLE_DIR)/$(APP_NAME) $(DOCS_DIR)/$(APP_NAME)-user-guide.md
 	@echo "Bundle created as $(APP_NAME)-bundle.zip in $(BUNDLE_DIR)."
 
 .PHONY: bundle-release package-bundle
